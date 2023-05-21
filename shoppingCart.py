@@ -42,7 +42,8 @@ for product in products:
     totalCartValue += purchasedQuantity * product['price']
     purchasedItem = {"name": product['name'], "quantity": purchasedQuantity, "price": product['price'], "totalPrice": purchasedQuantity * product['price']}
     gitWrapRequired = input("Do you wish to gift wrap " + product['name'] + " Yes/No\n") or "No"
-    purchasedItem["giftWrap"] = True if gitWrapRequired.lower() == "yes" else False
+    if gitWrapRequired.lower() == "yes":
+        totalGiftWrapCost += purchasedQuantity * giftWrapChargePerUnit
     cart.append(purchasedItem)
 
 #check total cart value to apply flat_10_discount
@@ -75,12 +76,9 @@ if specialDiscount > discountValue:
     discountApplied = specialDiscountName
     discountValue = specialDiscount
 
-print("totalCartValue", totalCartValue)
-print("totalPurchaseQuantity", totalPurchaseQuantity)
-print("discountApplied", discountApplied)
-print("discountValue", discountValue)
 
 
 
 
+print("totalGiftWrapCost",totalGiftWrapCost)
 
