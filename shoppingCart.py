@@ -42,8 +42,8 @@ for product in products:
     totalPurchaseQuantity += purchasedQuantity
     totalCartValue += purchasedQuantity * product['price']
     purchasedItem = {"name": product['name'], "quantity": purchasedQuantity, "price": product['price'], "totalPrice": purchasedQuantity * product['price']}
-    gitWrapRequired = input("Do you wish to gift wrap " + product['name'] + " Yes/No\n") or "No"
-    if gitWrapRequired.lower() == "yes":
+    giftWrapRequired = input("Do you wish to gift wrap " + product['name'] + "? Yes/No\n") or "No"
+    if giftWrapRequired.lower() == "yes":
         totalGiftWrapCost += purchasedQuantity * giftWrapChargePerUnit
     cart.append(purchasedItem)
 
