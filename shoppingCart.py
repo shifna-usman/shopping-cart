@@ -47,6 +47,8 @@ for product in products:
         totalGiftWrapCost += purchasedQuantity * giftWrapChargePerUnit
     cart.append(purchasedItem)
 
+print("\n\n")
+
 #calculate total shipping fee
 totalShippingPackageRequired = math.ceil(totalPurchaseQuantity/shippingUnitsPerPackage)
 totalShippingCharge = totalShippingPackageRequired * shippingFeePerPackage
@@ -65,7 +67,7 @@ if totalQuantityDiscount and totalQuantityDiscount["available"] and totalPurchas
         discountValue = possibleDiscount
 
 
-#iterate over cart and apply special discou10nts.
+#iterate over cart and apply special discounts.
 bulk5Discount = 0
 tiered50Discount = 0
 for item in cart:
@@ -74,6 +76,8 @@ for item in cart:
     if totalPurchaseQuantity > 30 and item["quantity"] > 15:
         tiered50Discount += int(((item["quantity"] - 15) * item["price"]) * (50/100))
 
+    print(item['name'] + " - Quantity : " + str(item['quantity']) + ", Total amount $" + str(item['totalPrice']) + "\n")
+
 specialDiscount = bulk5Discount if bulk5Discount > tiered50Discount else tiered50Discount
 specialDiscountName = "bulk_5_discount" if bulk5Discount > tiered50Discount else "tiered_50_discount"
 
@@ -81,8 +85,11 @@ if specialDiscount > discountValue:
     discountApplied = specialDiscountName
     discountValue = specialDiscount
 
+print("Subtotal : $" + str(totalCartValue) + "\n")
+print("Discount applied : " + discountApplied + ", Discount amount : $" + str(discountValue) + "\n")
+print("Shipping charge : $" + str(totalShippingCharge) + ". Gift wrap fee : $" + str(totalGiftWrapCost) + "\n")
+print("Total cost : $" + str(totalCartValue - discountValue + totalShippingCharge + totalGiftWrapCost))
 
-print("totalShippingCharge",totalShippingCharge)
 
 
 
