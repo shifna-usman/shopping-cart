@@ -14,10 +14,22 @@ products = [
     }
 ]
 
+#common offers applied
+
+totalCartValueDiscount = {"available": True, "name": "flat_10_discount", "limit": 200, "type": "flat", "discount": 10}
+totalQuantityDiscount = {"available": True, "name": "bulk_10_discount", "limit": 20, "type": "percent", "discount": 10}
+
 # define cart as list of objects
 cart = []
 totalPurchaseQuantity = 0
 totalCartValue = 0
+giftWrapChargePerUnit = 1
+shippingFeePerPackage = 5
+shippingUnitsPerPackage = 10
+totalGiftWrapCost = 0
+totalShippingCharge = 0
+discountApplied = ""
+discountValue = 0
 
 # collect purchase and gift wrap
 for product in products:
@@ -33,9 +45,23 @@ for product in products:
     purchasedItem["giftWrap"] = True if gitWrapRequired.lower() == "yes" else False
     cart.append(purchasedItem)
 
-print(cart)
-print(totalPurchaseQuantity)
-print(totalCartValue)
+#check total cart value to apply flat_10_discount
+if totalCartValueDiscount and totalCartValueDiscount["available"] and totalCartValue > totalCartValueDiscount["limit"]:
+    discountApplied = totalCartValueDiscount["name"]
+    discountValue = totalCartValueDiscount["discount"] if totalCartValueDiscount["type"] == "flat" else int(totalCartValue * (totalCartValueDiscount["discount"]/100))
+
+
+#check total purchase quantity to apply bulk_10_discount
+if totalQuantityDiscount and totalQuantityDiscount["available"] and totalPurchaseQuantity > totalQuantityDiscount["limit"]:
+    possibleDiscount = totalQuantityDiscount["discount"] if totalQuantityDiscount["type"] == "flat" else int(totalCartValue * (totalQuantityDiscount["discount"]/100))
+    if possibleDiscount > discountValue:
+        discountApplied = totalQuantityDiscount["name"]
+        discountValue = possibleDiscount
+
+print("totalCartValue",totalCartValue)
+print("totalPurchaseQuantity", totalPurchaseQuantity)
+print("discountApplied", discountApplied)
+print("discountValue", discountValue)
 
 
 
