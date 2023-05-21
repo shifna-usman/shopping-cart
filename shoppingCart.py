@@ -16,17 +16,27 @@ products = [
 
 # define cart as list of objects
 cart = []
+totalPurchaseQuantity = 0
+totalCartValue = 0
 
 # collect purchase and gift wrap
 for product in products:
     purchasedQuantity = 0
     try:
-        purchasedQuantity = int(input("Please enter the purchased quantity of " + product['name']) or 0)
+        purchasedQuantity = int(input("Please enter the purchased quantity of " + product['name'] + "\n") or 0)
     except:
         pass
-    purchasedItem = {"name": product['name'], "quantity": purchasedQuantity}
-    gitWrapRequired = input("Do you wish to gift wrap" + product['name'] + " Yes/No") or "No"
+    totalPurchaseQuantity += purchasedQuantity
+    totalCartValue += purchasedQuantity * product['price']
+    purchasedItem = {"name": product['name'], "quantity": purchasedQuantity, "totalPrice": purchasedQuantity * product['price']}
+    gitWrapRequired = input("Do you wish to gift wrap " + product['name'] + " Yes/No\n") or "No"
     purchasedItem["giftWrap"] = True if gitWrapRequired.lower() == "yes" else False
     cart.append(purchasedItem)
 
 print(cart)
+print(totalPurchaseQuantity)
+print(totalCartValue)
+
+
+
+
