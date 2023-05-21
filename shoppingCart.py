@@ -1,3 +1,4 @@
+import math
 # define products as list of dictionary
 products = [
     {
@@ -46,6 +47,10 @@ for product in products:
         totalGiftWrapCost += purchasedQuantity * giftWrapChargePerUnit
     cart.append(purchasedItem)
 
+#calculate total shipping fee
+totalShippingPackageRequired = math.ceil(totalPurchaseQuantity/shippingUnitsPerPackage)
+totalShippingCharge = totalShippingPackageRequired * shippingFeePerPackage
+
 #check total cart value to apply flat_10_discount
 if totalCartValueDiscount and totalCartValueDiscount["available"] and totalCartValue > totalCartValueDiscount["limit"]:
     discountApplied = totalCartValueDiscount["name"]
@@ -77,8 +82,8 @@ if specialDiscount > discountValue:
     discountValue = specialDiscount
 
 
+print("totalShippingCharge",totalShippingCharge)
 
 
 
-print("totalGiftWrapCost",totalGiftWrapCost)
 
