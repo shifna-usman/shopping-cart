@@ -28,7 +28,7 @@ shippingFeePerPackage = 5
 shippingUnitsPerPackage = 10
 totalGiftWrapCost = 0
 totalShippingCharge = 0
-discountApplied = ""
+discountApplied = "None"
 discountValue = 0
 
 # collect purchase and gift wrap
@@ -40,7 +40,7 @@ for product in products:
         pass
     totalPurchaseQuantity += purchasedQuantity
     totalCartValue += purchasedQuantity * product['price']
-    purchasedItem = {"name": product['name'], "quantity": purchasedQuantity, "totalPrice": purchasedQuantity * product['price']}
+    purchasedItem = {"name": product['name'], "quantity": purchasedQuantity, "price": product['price'], "totalPrice": purchasedQuantity * product['price']}
     gitWrapRequired = input("Do you wish to gift wrap " + product['name'] + " Yes/No\n") or "No"
     purchasedItem["giftWrap"] = True if gitWrapRequired.lower() == "yes" else False
     cart.append(purchasedItem)
@@ -58,10 +58,28 @@ if totalQuantityDiscount and totalQuantityDiscount["available"] and totalPurchas
         discountApplied = totalQuantityDiscount["name"]
         discountValue = possibleDiscount
 
-print("totalCartValue",totalCartValue)
+
+#iterate over cart and apply special discou10nts.
+bulk5Discount = 0
+tiered50Discount = 0
+for item in cart:
+    if item["quantity"] > 10:
+        bulk5Discount += int(item["totalPrice"] * (5/100))
+    if totalPurchaseQuantity > 30 and item["quantity"] > 15:
+        tiered50Discount += int(((item["quantity"] - 15) * item["price"]) * (50/100))
+
+specialDiscount = bulk5Discount if bulk5Discount > tiered50Discount else tiered50Discount
+specialDiscountName = "bulk_5_discount" if bulk5Discount > tiered50Discount else "tiered_50_discount"
+
+if specialDiscount > discountValue:
+    discountApplied = specialDiscountName
+    discountValue = specialDiscount
+
+print("totalCartValue", totalCartValue)
 print("totalPurchaseQuantity", totalPurchaseQuantity)
 print("discountApplied", discountApplied)
 print("discountValue", discountValue)
+
 
 
 
